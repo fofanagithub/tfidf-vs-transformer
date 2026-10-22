@@ -1,0 +1,35 @@
+# Expérience principale : critiques de films Allociné (français, sentiment binaire, ~200k avis équilibrés).
+# Transformer : CamemBERT-base (110M paramètres), pré-entraîné sur du français.
+# Budget : ordre de grandeur de quelques heures sur un GPU T4 pour 3 seeds x 2 époques sur le train complet
+# (160k avis) ; réduire avec --set data.max_train_samples=40000 si la session Colab est limitée.
+name: allocine
+seed: 42
+output_dir: results
+
+data:
+  name: tblard/allocine
+  text_column: review
+  label_column: label
+  language: fr
+  max_train_samples: null
+  max_eval_samples: null
+
+baseline:
+  feature_sets: [word_1_1, word_1_2, word_1_2+char_2_5]
+  C_grid: [0.25, 1.0, 4.0, 16.0]
+  min_df: 2
+  max_features: 500000
+
+transformer:
+  model_name: almanach/camembert-base
+  max_length: 384          # mesuré (5k avis, tokenizer CamemBERT) : médiane 93, p95 350, p99 448 tokens -> ~3 % tronqués
+  batch_size: 32
+  learning_rate: 2.0e-5
+  num_epochs: 2
+  early_stopping_patience: 1
+  seeds: [13, 42, 2024]
+  save_model: false
+
+learning_curve_sizes: [100, 250, 500, 1000, 2500, 5000, 10000]
+learning_curve_seeds: [13, 42, 2024]
+n_bootstrap: 1000

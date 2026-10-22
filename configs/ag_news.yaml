@@ -1,0 +1,30 @@
+# Expérience de contrôle : AG News (anglais, classification thématique, 4 classes, 120k articles).
+# Hypothèse : sur une tâche thématique, les mots-clés suffisent et l'écart TF-IDF / transformer est faible,
+# contrairement au sentiment (négation, ironie, dépendances longues).
+name: ag_news
+seed: 42
+output_dir: results
+
+data:
+  name: fancyzhx/ag_news
+  text_column: text
+  label_column: label
+  language: en
+  val_size: 0.1
+  max_train_samples: null
+  max_eval_samples: null
+
+baseline:
+  feature_sets: [word_1_1, word_1_2, word_1_2+char_2_5]
+  C_grid: [0.25, 1.0, 4.0, 16.0]
+
+transformer:
+  model_name: distilbert-base-uncased
+  max_length: 128
+  batch_size: 32
+  learning_rate: 3.0e-5
+  num_epochs: 2
+  seeds: [13, 42, 2024]
+
+learning_curve_sizes: [100, 250, 500, 1000, 2500, 5000, 10000]
+learning_curve_seeds: [13, 42, 2024]

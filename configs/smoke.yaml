@@ -1,0 +1,29 @@
+# Test de fumée (CPU, quelques minutes) : vérifie que tout le pipeline tourne de bout en bout.
+# Les chiffres obtenus n'ont AUCUNE valeur scientifique (petit modèle anglais, 600 exemples).
+name: smoke
+seed: 42
+output_dir: results
+
+data:
+  name: tblard/allocine
+  text_column: review
+  label_column: label
+  language: fr
+  max_train_samples: 600
+  max_eval_samples: 300
+
+baseline:
+  feature_sets: [word_1_2, word_1_2+char_2_5]
+  C_grid: [1.0, 4.0]
+
+transformer:
+  model_name: google/bert_uncased_L-2_H-128_A-2
+  max_length: 128
+  batch_size: 32
+  learning_rate: 1.0e-4
+  num_epochs: 2
+  seeds: [13, 42]
+
+learning_curve_sizes: [100, 300]
+learning_curve_seeds: [13]
+n_bootstrap: 200
