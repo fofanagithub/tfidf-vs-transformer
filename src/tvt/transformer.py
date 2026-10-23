@@ -15,7 +15,6 @@ from pathlib import Path
 import numpy as np
 import torch
 from datasets import Dataset
-from scipy.special import softmax
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -51,6 +50,30 @@ def _version_kwargs(warmup_ratio: float) -> dict:
     else:
         kwargs["train_sampling_strategy"] = "group_by_length"
     return kwargs
+
+
+@torch.no_grad()
+def predict_proba(model, tokenizer, texts: list[str], max_length: int, batch_size: int) -> np.ndarray:
+    """Class probabilities, row i for texts[i].
+
+    Deliberately not `Trainer.predict`: with transformers 5.x its sampler follows `train_sampling_strategy`,
+    so a length-grouped strategy silently returns rows out of order. Here batches are built from
+    length-sorted texts (little padding) and the result is scattered back to the input order explicitly.
+    """
+    model.eval()
+    device = next(model.parameters()).device
+    enc = tokenizer(texts, truncation=True, max_length=max_length)
+    order = np.argsort([len(ids) for ids in enc["input_ids"]], kind="stable")
+    collator = DataCollatorWithPadding(tokenizer)
+    probs = np.empty((len(texts), model.config.num_labels))
+    for start in range(0, len(texts), batch_size):
+        idx = order[start : start + batch_size]
+        batch = collator([{key: enc[key][i] for key in enc.keys()} for i in idx])
+        batch = {key: value.to(device) for key, value in batch.items()}
+        with torch.autocast(device.type, dtype=torch.float16, enabled=device.type == "cuda"):
+            logits = model(**batch).logits
+        probs[idx] = torch.softmax(logits.float(), dim=-1).cpu().numpy()
+    return probs
 
 
 def _tokenize(frame, tokenizer, max_length: int) -> Dataset:
@@ -116,9 +139,7 @@ def run_transformer_seed(splits: Splits, cfg: TransformerConfig, seed: int, out_
 
     # Inference timing includes tokenisation, as in production.
     with timer() as t_pred:
-        test_ds = _tokenize(splits.test, tokenizer, cfg.max_length)
-        logits = trainer.predict(test_ds).predictions
-    probs = softmax(logits.astype(np.float64), axis=-1)
+        probs = predict_proba(trainer.model, tokenizer, splits.test["text"].tolist(), cfg.max_length, cfg.eval_batch_size)
     save_predictions(out_dir / "predictions.csv", splits.test["label"].to_numpy(), probs)
     save_json(trainer.state.log_history, out_dir / "log_history.json")
 
