@@ -6,7 +6,8 @@ Ce projet répond à la question par une comparaison contrôlée sur la classifi
 performance avec intervalles de confiance, tests statistiques appariés, coût (temps, taille, débit),
 efficacité en données et analyse d'erreurs.
 
-> 📊 Résultats : voir [Résultats](#résultats) (le rapport complet est généré dans `results/<expérience>/report/report.md`).
+> 📄 **[Rapport scientifique complet](RAPPORT.md)** : méthode étape par étape, figures, résultats, discussion et limites.
+> 📊 Résumé des résultats : [Résultats](#résultats) (tables générées dans `results/allocine/report/report.md`).
 
 ---
 
