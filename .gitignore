@@ -8,3 +8,6 @@ results/*/baseline/model.joblib
 results/smoke/
 hf_cache/
 .ipynb_checkpoints/
+# Heavy per-run files of the learning curve and pre-fix prediction backups (regenerable / kept locally)
+results/*/learning_curve/*/
+results/**/predictions_unaligned.csv

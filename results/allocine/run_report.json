@@ -1,0 +1,75 @@
+{
+  "config": {
+    "name": "allocine",
+    "data": {
+      "name": "tblard/allocine",
+      "text_column": "review",
+      "label_column": "label",
+      "language": "fr",
+      "val_size": 0.1,
+      "max_train_samples": null,
+      "max_eval_samples": null
+    },
+    "baseline": {
+      "feature_sets": [
+        "word_1_1",
+        "word_1_2",
+        "word_1_2+char_2_5"
+      ],
+      "C_grid": [
+        0.25,
+        1.0,
+        4.0,
+        16.0
+      ],
+      "min_df": 2,
+      "max_features": 500000,
+      "class_weight": null,
+      "max_iter": 2000
+    },
+    "transformer": {
+      "model_name": "almanach/camembert-base",
+      "max_length": 384,
+      "batch_size": 32,
+      "eval_batch_size": 64,
+      "learning_rate": 2e-05,
+      "weight_decay": 0.01,
+      "warmup_ratio": 0.06,
+      "num_epochs": 2,
+      "gradient_accumulation_steps": 1,
+      "early_stopping_patience": 1,
+      "seeds": [
+        13,
+        42,
+        2024
+      ],
+      "save_model": false
+    },
+    "seed": 42,
+    "output_dir": "results",
+    "learning_curve_sizes": [
+      100,
+      250,
+      500,
+      1000,
+      2500,
+      5000,
+      10000
+    ],
+    "learning_curve_seeds": [
+      13,
+      42,
+      2024
+    ],
+    "n_bootstrap": 1000
+  },
+  "environment": {
+    "python": "3.12.0",
+    "platform": "Windows-11-10.0.22621-SP0",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.20.2",
+    "sklearn": "1.9.1",
+    "cuda": false,
+    "device": "Intel64 Family 6 Model 142 Stepping 10, GenuineIntel"
+  }
+}

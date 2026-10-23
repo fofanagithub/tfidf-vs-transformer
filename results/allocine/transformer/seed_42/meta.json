@@ -1,0 +1,14 @@
+{
+  "model": "almanach/camembert-base",
+  "seed": 42,
+  "val_macro_f1": 0.974561463799263,
+  "best_checkpoint_step": 9964,
+  "epochs_run": 2.0,
+  "train_truncation_rate": 0.03675824865136119,
+  "train_seconds": 2216.8612694850003,
+  "inference_seconds": 48.59985604600024,
+  "inference_examples_per_second": 410.04236681561264,
+  "inference_device": "Tesla T4",
+  "n_parameters": 110623490,
+  "model_size_mb": 442.49396
+}

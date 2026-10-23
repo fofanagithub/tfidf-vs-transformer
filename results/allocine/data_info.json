@@ -1,0 +1,37 @@
+{
+  "label_names": [
+    "neg",
+    "pos"
+  ],
+  "train": {
+    "n": 159420,
+    "label_distribution": {
+      "0": 79103,
+      "1": 80317
+    },
+    "mean_words": 91.4,
+    "median_words": 66.0,
+    "p95_words": 254.0
+  },
+  "val": {
+    "n": 19933,
+    "label_distribution": {
+      "0": 10177,
+      "1": 9756
+    },
+    "mean_words": 92.6,
+    "median_words": 66.0,
+    "p95_words": 260.0
+  },
+  "test": {
+    "n": 19928,
+    "label_distribution": {
+      "0": 10360,
+      "1": 9568
+    },
+    "mean_words": 92.6,
+    "median_words": 67.0,
+    "p95_words": 259.0
+  },
+  "test_fingerprint": "c8157e050b1d8bd7"
+}

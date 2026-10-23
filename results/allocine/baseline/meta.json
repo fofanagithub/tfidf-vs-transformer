@@ -1,0 +1,15 @@
+{
+  "model": "tfidf+logreg",
+  "best_params": {
+    "feature_set": "word_1_2+char_2_5",
+    "C": 4.0
+  },
+  "val_macro_f1": 0.9434515549016222,
+  "n_features": 910454,
+  "train_seconds": 281.75361225300003,
+  "inference_seconds": 30.117648157999838,
+  "inference_examples_per_second": 661.6718508515656,
+  "inference_device": "cpu",
+  "model_size_mb": 38.615508,
+  "n_parameters": 910455
+}

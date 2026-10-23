@@ -1,0 +1,7 @@
+slice,n,baseline_accuracy,baseline_macro_f1,transformer_accuracy,transformer_macro_f1
+1–33 mots,4992,0.9439,0.9433,0.9647,0.9644
+34–67 mots,5029,0.9489,0.9488,0.9769,0.9769
+68–131 mots,4940,0.9435,0.9435,0.98,0.9799
+132–380 mots,4967,0.9416,0.9416,0.9748,0.9748
+avec négation,15127,0.9443,0.9432,0.9755,0.9751
+sans négation,4801,0.9452,0.9401,0.9696,0.9667
